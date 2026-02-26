@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from extensions import db
 import os
 import sys
 
@@ -12,11 +12,13 @@ app.config['SECRET_KEY'] ='bad17cf69c4a2799edf13e5e5e64a7b4f4a1cca63ab22ebfee4a3
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{databse_path}/database/UENote.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 
-# Create SQLAlchemy instance
-db = SQLAlchemy(app)
 
+
+db.init_app(app=app)
+from models.models import *
 @app.before_request
 def create_database():
+    
     db.create_all()
     print("Tables created.")
 
