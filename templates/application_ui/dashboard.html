@@ -1,0 +1,64 @@
+{% extends "/application_ui/base.html" %}
+
+{% block title %}Dashboard | UENote{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Projects</h2>
+
+    <!-- New Project Button -->
+    <button class="btn btn-gradient text-white" data-bs-toggle="modal" data-bs-target="#newProjectModal">
+        + New Project
+    </button>
+</div>
+
+<!-- Projects Grid -->
+<div class="row">
+    {% for project in projects %}
+        <div class="col-md-4 mb-4">
+            {% include "/application_ui/components/project_card.html" %}
+        </div>
+    {% else %}
+        <p>No projects yet. Create your first one 🚀</p>
+    {% endfor %}
+</div>
+
+
+<!-- New Project Modal -->
+<div class="modal fade" id="newProjectModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+
+            <div class="modal-header border-0">
+                <h5 class="modal-title">Create New Project</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form method="GET" action="/project/create">
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label class="form-label">Project Title</label>
+                        <input type="text" name="title" class="form-control bg-secondary text-white" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control bg-secondary text-white" rows="3"></textarea>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer border-0">
+                    <button type="submit" class="btn btn-gradient text-white">
+                        Create
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

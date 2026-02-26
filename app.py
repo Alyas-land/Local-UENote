@@ -15,6 +15,21 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 db.init_app(app=app)
+
+
+#--routes sections--#
+
+# User
+from controller import user_panel
+app.add_url_rule('/', view_func=user_panel.main, endpoint='main')
+app.add_url_rule('/dashboard', view_func=user_panel.dashboard, endpoint='dashboard')
+app.add_url_rule('/project/create', view_func=user_panel.add_project, endpoint='add_project')
+
+
+
+
+
+
 from models.models import *
 @app.before_request
 def create_database():

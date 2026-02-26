@@ -1,4 +1,4 @@
-from app import db
+from extensions import db
 from persiantools.jdatetime import JalaliDateTime
 
 class Project(db.Model):
@@ -10,10 +10,15 @@ class Project(db.Model):
     description = db.Column(db.Text, nullable=True)
     created_at = db.Column(db.String(200), nullable=False, default= JalaliDateTime.now().strftime("%Y/%m/%d -- %H:%M"))
 
+    def __ini__(self, title, description):
+        self.title = title
+        self.description = description
+
+        
     def __repr__(self):
         return f'{self.title} project was created at {self.created_at}'
     
-    note = db.relationship('product', backref='project', lazy=True)
+    note = db.relationship('Note', backref='project', lazy=True)
 
     
 

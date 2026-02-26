@@ -1,0 +1,28 @@
+<div class="card h-100 p-3">
+
+    <h5 class="fw-bold">{{ project.title }}</h5>
+
+    <p class="text-secondary small">
+        {{ project.description or "No description provided." }}
+    </p>
+
+    <div class="mt-auto d-flex justify-content-between">
+
+        <a href="/project/{{ project.id }}" class="btn btn-sm btn-outline-light">
+            Open
+        </a>
+
+        <div>
+            <a href="/project/{{ project.id }}/edit" class="btn btn-sm btn-outline-warning">
+                Edit
+            </a>
+
+            <a href="/project/{{ project.id }}/delete"
+               class="btn btn-sm btn-outline-danger"
+               onclick="return confirm('Delete this project?');">
+                Delete
+            </a>
+        </div>
+
+    </div>
+</div>
