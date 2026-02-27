@@ -23,7 +23,10 @@ db.init_app(app=app)
 from controller import user_panel
 app.add_url_rule('/', view_func=user_panel.main, endpoint='main')
 app.add_url_rule('/dashboard', view_func=user_panel.dashboard, endpoint='dashboard')
+app.add_url_rule('/projects', view_func=user_panel.projects, endpoint='projects')
 app.add_url_rule('/project/create', view_func=user_panel.add_project, endpoint='add_project')
+app.add_url_rule('/project/delete/<int:target_id>', view_func=user_panel.delete_project, endpoint='delete_project', methods=['GET' , 'POST'])
+app.add_url_rule('/project/edit/<int:project_id>', view_func=user_panel.edit_project, endpoint='edit_project', methods=['POST'])
 
 
 

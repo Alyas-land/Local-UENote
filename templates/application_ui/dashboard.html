@@ -2,63 +2,116 @@
 
 {% block title %}Dashboard | UENote{% endblock %}
 
-{% block content %}
-
+{% block content %}<!---->
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold">Projects</h2>
-
-    <!-- New Project Button -->
-    <button class="btn btn-gradient text-white" data-bs-toggle="modal" data-bs-target="#newProjectModal">
-        + New Project
-    </button>
+    <h2 class="fw-bold text-info">Dashboard</h2>
 </div>
 
-<!-- Projects Grid -->
-<div class="row">
-    {% for project in projects %}
-        <div class="col-md-4 mb-4">
-            {% include "/application_ui/components/project_card.html" %}
+<!-- ================= Stats Row ================= -->
+<div class="row mb-4">
+
+    <div class="col-md-6">
+        <div class="card p-4 text-center">
+            <h6 class="text-secondary">Total Projects</h6>
+            <h2 class="fw-bold">{{ project_count }}</h2>
         </div>
-    {% else %}
-        <p>No projects yet. Create your first one 🚀</p>
-    {% endfor %}
+    </div>
+
+    <div class="col-md-6">
+        <div class="card p-4 text-center">
+            <h6 class="text-secondary">Total Notes</h6>
+            <h2 class="fw-bold">{{ note_count }}</h2>
+        </div>
+    </div>
 </div>
 
 
-<!-- New Project Modal -->
-<div class="modal fade" id="newProjectModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content bg-dark text-white">
+<div class="row mb-">
+    <div class="col-md-5">
+        <div class="card p-4">
 
-            <div class="modal-header border-0">
-                <h5 class="modal-title">Create New Project</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            <h5 class="fw-bold mb-3">About UENote</h5>
+
+            <p class="text-secondary small">
+                UENote is a lightweight documentation and project organization tool
+                built specifically for game developers. It helps structure gameplay systems,
+                technical design notes, and development ideas in a clean and focused environment.
+            </p>
+
+            <hr class="border-secondary">
+
+            <div class="row">
+
+                <div class="col-md-4 mb-3">
+                    <h6 class="fw-bold">Backend</h6>
+                    <p class="small text-secondary mb-1">
+                        Python + Flask
+                    </p>
+                    <p class="small text-secondary">
+                        ORM: Flask-SQLAlchemy
+                    </p>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <h6 class="fw-bold">Frontend</h6>
+                    <p class="small text-secondary mb-1">
+                        Bootstrap 5
+                    </p>
+                    <p class="small text-secondary">
+                        Jinja2 Templates
+                    </p>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <h6 class="fw-bold">Database</h6>
+                    <p class="small text-secondary">
+                        SQLite (Development Phase)
+                    </p>
+                </div>
+
             </div>
 
-            <form method="GET" action="/project/create">
-                <div class="modal-body">
+            <hr class="border-secondary">
 
-                    <div class="mb-3">
-                        <label class="form-label">Project Title</label>
-                        <input type="text" name="title" class="form-control bg-secondary text-white" required>
-                    </div>
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
 
-                    <div class="mb-3">
-                        <label class="form-label">Description</label>
-                        <textarea name="description" class="form-control bg-secondary text-white" rows="3"></textarea>
-                    </div>
-
+                <div>
+                    <span class="badge bg-info text-dark me-2">
+                        Version 1.0
+                    </span>
+                    <span class="badge bg-secondary">
+                        Initial Release
+                    </span>
                 </div>
 
-                <div class="modal-footer border-0">
-                    <button type="submit" class="btn btn-gradient text-white">
-                        Create
-                    </button>
+                <div class="mt-2 mt-md-0">
+                    <a href="https://github.com/alyas-land/"
+                       target="_blank"
+                       class="btn btn-sm btn-outline-light me-2">
+                        GitHub
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/thealyas/"
+                       target="_blank"
+                       class="btn btn-sm btn-outline-light">
+                        LinkedIn
+                    </a>
+
+                    <a href="https://www.kick.com/thealyas/"
+                       target="_blank"
+                       class="btn btn-sm btn-outline-light">
+                        LinkedIn
+                    </a>
                 </div>
-            </form>
+
+            </div>
 
         </div>
     </div>
 </div>
+
+
+    
+
 
 {% endblock %}

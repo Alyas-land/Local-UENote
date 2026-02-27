@@ -41,9 +41,15 @@
             border: none;
         }
 
+        .btn-gradient-side {
+            background: linear-gradient(45deg, #5457e6, #8a48b6);
+            border: none;
+        }
+
         .btn-gradient:hover {
             opacity: 0.9;
         }
+
     </style>
 </head>
 <body>
@@ -54,8 +60,16 @@
         <!-- Sidebar -->
         <div class="col-md-2 sidebar p-3">
             <h4 class="fw-bold mb-4">UENote</h4>
-
-            <a href="/app">Dashboard</a>
+            {%if current_page=='dashboard'%}
+            <a href="/dashboard" class="btn-gradient-side text-white">Dashboard</a>
+            {%else%}
+            <a href="/dashboard">Dashboard</a>
+            {%endif%}
+            {%if current_page=='projects'%}
+            <a href="/projects" class="btn-gradient-side text-white">Projects</a>
+            {%else%}
+            <a href="/projects">Projects</a>
+            {%endif%}
             <a href="#">Settings</a>
             <a href="#">Logout</a>
         </div>
