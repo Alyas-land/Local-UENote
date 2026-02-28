@@ -1,0 +1,133 @@
+{% extends "/application_ui/base.html" %}
+
+{% block title %}Dashboard | UENote{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold">Project: {{ project.title }}</h2>
+        <p class="text-secondary small mb-0">
+            Description: {{ project.description }}
+        </p>
+    </div>
+
+    <div>
+        <a href="/projects" class="btn btn-outline-light me-2">
+            ← Back
+        </a>
+
+        <a class="btn btn-gradient text-white"
+                href="/project/{{ project.id }}/notes/create">
+            + New Note
+    </a>
+    </div>
+</div>
+
+<div class="card p-3">
+    <table class="table table-dark table-hover align-middle mb-0">
+
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th style="width:150px;">Created</th>
+                <th style="width:200px;">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for note in notes %}
+            <tr>
+                <td>{{ note.title }}</td>
+                <td class="small text-secondary">
+                    {{ note.created_at}}
+                </td>
+
+                <td>
+                    <a href="/project/{{project.id}}/notes/{{note.id}}/view"
+                       class="btn btn-sm btn-outline-info">
+                        View
+                    </a>
+
+                    <button class="btn btn-sm btn-outline-warning"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editNoteModal{{ note.id }}">
+                        Edit
+                    </button>
+
+                    <button class="btn btn-sm btn-outline-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteNoteModal{{ note.id }}">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+
+            <!-- Delete modal -->
+            <div class="modal fade" id="deleteNoteModal{{ note.id }}" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content bg-dark text-white">
+                    
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title">
+                                Delete Note
+                            </h5>
+                            <button type="button"
+                                    class="btn-close btn-close-white"
+                                    data-bs-dismiss="modal">
+                            </button>
+                        </div>
+                    
+                        <div class="modal-body">
+                            Are you sure you want to delete
+                            <strong class="text-info">{{ note.title }}</strong> ?
+                            <br>
+                            <small class="text-danger">
+                                This action cannot be undone.
+                            </small>
+                        </div>
+                    
+                        <div class="modal-footer border-0">
+                        
+                            <button type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                        
+                            <form method="POST"
+                                  action="{{ url_for('delete_node',
+                                                     project_id=project.id,
+                                                     target_id=note.id) }}">
+                        
+                                <button type="submit"
+                                        class="btn btn-danger">
+                                    Yes, Delete
+                                </button>
+                            </form>
+                        
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+
+            {% else %}
+            <tr>
+                <td colspan="3" class="text-center text-secondary">
+                    No notes yet. Create your first one 🚀
+                </td>
+            </tr>
+
+
+            
+            {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+
+
+
+
+{% endblock %}

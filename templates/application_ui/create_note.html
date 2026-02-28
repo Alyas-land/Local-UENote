@@ -1,0 +1,97 @@
+{% extends "/application_ui/base.html" %}
+
+{% block title %}Dashboard | UENote{% endblock %}
+
+{% block style %}
+    <style>
+#preview {
+    unicode-bidi: plaintext;
+}
+
+#editor {
+    unicode-bidi: plaintext;
+}
+    </style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="fw-bold">Create New Note</h3>
+
+        <button type="submit"
+                form="noteForm"
+                class="btn btn-success">
+            💾 Save Note
+        </button>
+    </div>
+
+    <form id="noteForm" method="POST">
+
+        <input type="hidden" name="project_id" value="{{ project.id }}">
+
+        <!-- Title -->
+        <div class="mb-3">
+            <input type="text"
+                   name="title"
+                   placeholder="Note title..."
+                   class="form-control form-control-lg"
+                   required>
+        </div>
+
+        <div class="row">
+
+            <!-- LEFT: Editor -->
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Markdown Editor</label>
+                <textarea id="editor"
+                          name="content"
+                          class="form-control"
+                          style="height:75vh; font-family: monospace;"
+                          placeholder="Write your markdown here..."></textarea>
+            </div>
+
+            <!-- RIGHT: Live Preview -->
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Live Preview</label>
+
+                <div id="preview"
+                     class="border rounded p-3 bg-dark text-light overflow-auto"
+                     style="height:75vh;">
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    const editor = document.getElementById("editor");
+    const preview = document.getElementById("preview");
+
+    function updatePreview() {
+        const markdownText = editor.value;
+
+        // Convert markdown to HTML
+        const html = marked.parse(markdownText);
+
+        preview.innerHTML = html;
+
+        // Highlight code blocks
+        document.querySelectorAll("pre code").forEach((block) => {
+            hljs.highlightElement(block);
+        });
+    }
+
+    editor.addEventListener("input", updatePreview);
+
+    // Initial render
+    updatePreview();
+</script>
+{% endblock %}

@@ -27,7 +27,7 @@
 
 
 <div class="row mb-">
-    <div class="col-md-5">
+    <div class="col-md-6">
         <div class="card p-4">
 
             <h5 class="fw-bold mb-3">About UENote</h5>
@@ -87,20 +87,20 @@
                 <div class="mt-2 mt-md-0">
                     <a href="https://github.com/alyas-land/"
                        target="_blank"
-                       class="btn btn-sm btn-outline-light me-2">
+                       class="btn btn-sm btn-dark ">
                         GitHub
                     </a>
 
                     <a href="https://www.linkedin.com/in/thealyas/"
                        target="_blank"
-                       class="btn btn-sm btn-outline-light">
+                       class="btn btn-sm btn-primary">
                         LinkedIn
                     </a>
 
                     <a href="https://www.kick.com/thealyas/"
                        target="_blank"
-                       class="btn btn-sm btn-outline-light">
-                        LinkedIn
+                       class="btn btn-sm btn-success ps-3 pe-3">
+                          kick  
                     </a>
                 </div>
 
@@ -112,6 +112,28 @@
 
 
     
+<script>
+    const editor = document.getElementById("editor");
+    const preview = document.getElementById("preview");
 
+    function updatePreview() {
+        const markdownText = editor.value;
+
+        // Convert markdown to HTML
+        const html = marked.parse(markdownText);
+
+        preview.innerHTML = html;
+
+        // Highlight code blocks
+        document.querySelectorAll("pre code").forEach((block) => {
+            hljs.highlightElement(block);
+        });
+    }
+
+    editor.addEventListener("input", updatePreview);
+
+    // Initial render
+    updatePreview();
+</script>
 
 {% endblock %}

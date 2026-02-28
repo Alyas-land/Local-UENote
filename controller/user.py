@@ -1,6 +1,6 @@
 from flask import render_template, request, url_for, redirect
 #from models.models import Project, db
-from feature.quries.query import ProjectsQuery
+from feature.quries.query import ProjectsQuery, NoteQuery
 
 class UserController():
 
@@ -54,6 +54,45 @@ class UserController():
                         return redirect('/projects')
                 
                  # flash error message
+
+        
+        def notes(self, project_id):
+                project = ProjectsQuery.fetch_project_by_id(project_id)
+                notes = NoteQuery.fetch_all_notes_of_project_by_project_id(project_id)
+                return render_template('/application_ui/notes.html', project=project, notes=notes, current_page='notes')
+        
+        def create_note(self, project_id):
+                project = ProjectsQuery.fetch_project_by_id(project_id)
+                if request.method == "POST":
+                        title = request.form['title']
+                        content = request.form['content']
+                        create_status = NoteQuery.new_note(
+                                title=title,
+                                content=content,
+                                project_id=project_id
+                                )
+                        if create_status:
+                                # flash success message
+                                return redirect(f'/project/{project_id}/notes')
+                        # flash error message
+                        return redirect(f'/project/{project_id}/notes')
+
+                
+                return render_template('/application_ui/create_note.html', project=project)
+        
+        def delete_node(self, project_id, target_id):
+                # Delete project
+                del_status = NoteQuery.delete_node_by_id(target_id=target_id)
+                if del_status:
+                        # flash successfull message
+                        return redirect(f'/project/{project_id}/notes')
+                # flash error message
+                return redirect(f'/project/{project_id}/notes')
+        
+        def view_note(self, project_id, note_id):
+                note = NoteQuery.fetch_note_by_id(note_id=note_id)
+                return render_template('/application_ui/view_note.html', note=note)
+
 
 
         

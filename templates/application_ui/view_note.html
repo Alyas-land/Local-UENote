@@ -1,0 +1,98 @@
+{% extends "/application_ui/base.html" %}
+
+{% block title %}Dashboard | UENote{% endblock %}
+
+{% block style %}
+    <style>
+#preview {
+    unicode-bidi: plaintext;
+}
+
+#editor {
+    unicode-bidi: plaintext;
+}
+    </style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="fw-bold">{{ note.title }}</h3>
+
+        <div>
+            <a href=""
+               class="btn btn-sm btn-outline-warning">
+                ✏️ Edit
+            </a>
+
+            <button class="btn btn-sm btn-outline-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteNoteModal">
+                🗑 Delete
+            </button>
+        </div>
+    </div>
+
+    <!-- Note Info -->
+    <div class="mb-3 small text-secondary">
+        Created at: {{ note.created_at }} |
+        Project: <a href="">
+            {{ note.project.title }}
+        </a>
+    </div>
+
+    <!-- Markdown Render -->
+    <pre id="noteContent" class="d-none">{{ note.content | e }}</pre>
+<div id="notePreview" class="border rounded p-3 bg-dark text-light"></div>
+
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteNoteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">Delete Note</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete <strong class="text-info">{{ note.title }}</strong>?<br>
+                <small class="text-danger">This action cannot be undone.</small>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST"
+                      action="{{ url_for('delete_node',
+                                         project_id=note.project_id,
+                                         target_id=note.id) }}">
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<!-- Marked.js & Highlight.js -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+<script>
+    const markdown = document.getElementById("noteContent").innerText;
+    const html = marked.parse(markdown);
+    const preview = document.getElementById("notePreview");
+    preview.innerHTML = html;
+
+    // highlight.js
+    document.querySelectorAll("pre code").forEach((block) => {
+        hljs.highlightElement(block);
+    });
+</script>
+{% endblock %}

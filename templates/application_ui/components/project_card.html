@@ -8,7 +8,7 @@
 
     <div class="mt-auto d-flex justify-content-between">
 
-        <a href="/project/{{ project.id }}" class="btn btn-sm btn-outline-light">
+        <a href="/project/{{ project.id }}/notes" class="btn btn-sm btn-outline-light">
             Open
         </a>
 
@@ -18,11 +18,10 @@
             Edit
             </button>
 
-            <a href="/project/delete/{{ project.id }}"
-               class="btn btn-sm btn-outline-danger"
-               onclick="return confirm('Delete this project?');">
-                Delete
-            </a>
+            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+            data-bs-target="#deleteProjectModal{{ project.id }}">
+            Delete
+            </button>
         </div>
 
     </div>
@@ -66,6 +65,43 @@
                     </button>
                 </div>
             </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- Delete Project Modal -->
+<div class="modal fade" id="deleteProjectModal{{ project.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+
+            <div class="modal-header border-1 border-danger">
+                <h5 class="modal-title">Delete Project</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+                <div class="modal-body">
+                    <div class="modal-body">
+                            Are you sure you want to delete
+                            <strong class="text-info">{{ project.title }}</strong> ?
+                            <br>
+                            <small class="text-danger">
+                                This action cannot be undone.
+                            </small>
+                        </div>
+
+                </div>
+
+                <div class="modal-footer border-1 border-danger">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                    <a class="btn btn-danger" href="/project/delete/{{ project.id }}">
+                        Delete
+                    </a>
+                </div>
 
         </div>
     </div>

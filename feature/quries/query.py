@@ -48,3 +48,43 @@ class ProjectsQuery():
     
 
     
+class NoteQuery():
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def fetch_all_notes_of_project_by_project_id(project_id):
+        notes = Note.query.filter_by(project_id=project_id).all()
+        if notes:
+            return notes
+        
+        return None
+    
+    @staticmethod
+    def fetch_note_by_id(note_id):
+        note = Note.query.filter_by(id=note_id).one_or_none()
+        if note:
+            return note
+        return None
+    
+    @staticmethod
+    def new_note(title, content, project_id):
+        if title and content:
+            new_note = Note(
+                title=title,
+                content=content,
+                project_id=project_id
+            )
+            db.session.add(new_note)
+            db.session.commit()
+            return True
+        return False
+    
+    @staticmethod
+    def delete_node_by_id(target_id):
+        target = Note.query.filter_by(id=target_id).one_or_none()
+        if target:
+            db.session.delete(target)
+            db.session.commit()
+            return True
+        return False

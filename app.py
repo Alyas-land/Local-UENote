@@ -27,6 +27,10 @@ app.add_url_rule('/projects', view_func=user_panel.projects, endpoint='projects'
 app.add_url_rule('/project/create', view_func=user_panel.add_project, endpoint='add_project')
 app.add_url_rule('/project/delete/<int:target_id>', view_func=user_panel.delete_project, endpoint='delete_project', methods=['GET' , 'POST'])
 app.add_url_rule('/project/edit/<int:project_id>', view_func=user_panel.edit_project, endpoint='edit_project', methods=['POST'])
+app.add_url_rule('/project/<int:project_id>/notes', view_func=user_panel.notes, endpoint='notes', methods=['GET' , 'POST'])
+app.add_url_rule('/project/<int:project_id>/notes/create', view_func=user_panel.create_note, endpoint='create_notes', methods=['GET' , 'POST'])
+app.add_url_rule('/project/<int:project_id>/notes/<int:target_id>/delete', view_func=user_panel.delete_node, endpoint='delete_node', methods=['GET' , 'POST'])
+app.add_url_rule('/project/<int:project_id>/notes/<int:note_id>/view', view_func=user_panel.view_note, endpoint='view_note', methods=['GET' , 'POST'])
 
 
 
