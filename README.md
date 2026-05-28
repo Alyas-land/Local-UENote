@@ -1,4 +1,4 @@
-```md
+
 # 🎮 Local UENote
 
 A lightweight local note-taking application designed for:
