@@ -1,6 +1,6 @@
 
 # 🎮 Local UENote
-
+![Alyas Banner](static/home.gif)
 A lightweight local note-taking application designed for:
 
 - Unreal Engine learners
