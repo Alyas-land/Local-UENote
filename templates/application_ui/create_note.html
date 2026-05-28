@@ -1,4 +1,4 @@
-{% extends "/application_ui/base.html" %}
+{% extends "/application_ui/layout/base.html" %}
 
 {% block title %}Dashboard | UENote{% endblock %}
 
@@ -71,6 +71,9 @@
 {% endblock %}
 
 {% block script %}
+<!-- Marked.js & Highlight.js -->
+ <script src="{{ url_for('static', filename='marked/marked.min.js') }}"></script>
+ <script src="{{ url_for('static', filename='highlight/highlight.min.js') }}"></script>
 <script>
     const editor = document.getElementById("editor");
     const preview = document.getElementById("preview");

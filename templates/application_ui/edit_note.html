@@ -1,0 +1,111 @@
+{% extends "/application_ui/layout/base.html" %}
+
+{% block title %}Notes | UENote{% endblock %}
+
+{% block style %}
+    <style>
+#preview {
+    unicode-bidi: plaintext;
+}
+
+#editor {
+    unicode-bidi: plaintext;
+}
+    </style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="fw-bold">Edit Note Note</h3>
+        <button type="submit"
+                form="editNoteForm"
+                class="btn btn-success">
+            💾 Save Note
+        </button>
+    </div>
+
+    <!-- Note Info -->
+        <div class="mb-3 small text-secondary">
+            Created at: {{ note.created_at }} |
+            Project: <a href="/project/{{ project_id }}/notes">
+                <span class="text-info fw-bold">{{ note.project.title }}</span>
+            </a>
+        </div>
+
+    <form id="editNoteForm" method="POST">
+
+        <input type="hidden" name="project_id" value="{{ project_id }}">
+
+        <!-- Title -->
+        <div class="mb-3">
+            <input type="text"
+                   name="new_title"
+                   value="{{ note.title }}"
+                   placeholder="Note title..."
+                   class="form-control form-control-lg"
+                   required>
+
+        </div>
+
+        <div class="row">
+
+            <!-- LEFT: Editor -->
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Markdown Editor</label>
+                <textarea id="editor"
+                          name="new_content"
+                          class="form-control"
+                          style="height:75vh; font-family: monospace;"
+                          placeholder="Write your markdown here...">
+                    {{ note.content }}
+                </textarea>
+            </div>
+
+            <!-- RIGHT: Live Preview -->
+            <div class="col-md-6">
+                <label class="form-label fw-bold">Live Preview</label>
+
+                <div id="preview"
+                     class="border rounded p-3 bg-dark text-light overflow-auto"
+                     style="height:75vh;">
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+</div>
+{% endblock %}
+
+{% block script %}
+<!-- Marked.js & Highlight.js -->
+ <script src="{{ url_for('static', filename='marked/marked.min.js') }}"></script>
+ <script src="{{ url_for('static', filename='highlight/highlight.min.js') }}"></script>
+<script>
+    const editor = document.getElementById("editor");
+    const preview = document.getElementById("preview");
+
+    function updatePreview() {
+        const markdownText = editor.value;
+
+        // Convert markdown to HTML
+        const html = marked.parse(markdownText);
+
+        preview.innerHTML = html;
+
+        // Highlight code blocks
+        document.querySelectorAll("pre code").forEach((block) => {
+            hljs.highlightElement(block);
+        });
+    }
+
+    editor.addEventListener("input", updatePreview);
+
+    // Initial render
+    updatePreview();
+</script>
+{% endblock %}

@@ -6,7 +6,11 @@ class ProjectsQuery():
         pass
 
     @staticmethod
-    def fetch_all_projects():
+    def fetch_all_projects(req='obj'):
+        if req == 'count':
+            projects_count = Project.query.count()
+            return projects_count
+
         projects = Project.query.all()
         return projects
     
@@ -61,6 +65,12 @@ class NoteQuery():
         return None
     
     @staticmethod
+    def fetch_all_notes_count():
+            notes_count = Note.query.count()
+            return notes_count
+        
+    
+    @staticmethod
     def fetch_note_by_id(note_id):
         note = Note.query.filter_by(id=note_id).one_or_none()
         if note:
@@ -88,3 +98,10 @@ class NoteQuery():
             db.session.commit()
             return True
         return False
+    
+    @staticmethod
+    def update_note(note, new_title, new_content):
+        note.title = new_title
+        note.content = new_content
+        db.session.commit()
+        return True

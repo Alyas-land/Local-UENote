@@ -1,6 +1,7 @@
 from flask import render_template, request, url_for, redirect
 #from models.models import Project, db
 from feature.quries.query import ProjectsQuery, NoteQuery
+from forms.UE_forms import AddProject
 
 class UserController():
 
@@ -10,23 +11,35 @@ class UserController():
         def dashboard(self):
                 # Fetch all projects
                 projects = ProjectsQuery.fetch_all_projects()
-                return render_template('/application_ui/dashboard.html', projects=projects, current_page='dashboard')
+                
+                info_dic = {
+                        'projects_count': ProjectsQuery.fetch_all_projects(req='count'),
+                        'notes_count': NoteQuery.fetch_all_notes_count()
+                }
+                return render_template('/application_ui/dashboard.html', projects=projects, current_page='dashboard', info_dic=info_dic)
         
         def projects(self):
                 # Fetch all projects
                 projects = ProjectsQuery.fetch_all_projects()
-                return render_template('/application_ui/projects.html', projects=projects, current_page='projects')
+                project_form = AddProject()
+                return render_template('/application_ui/projects.html', projects=projects, current_page='projects', form=project_form)
         
 
         def add_project(self):
-                title = request.args.get('title')
+                project_form = AddProject()
+                if project_form.validate_on_submit():
+                        add_status = ProjectsQuery.add_project(title=project_form.title.data, description=project_form.description.data)
+                        if add_status:
+                                return redirect('/projects')
+                        
+                '''title = request.args.get('title')
                 description = request.args.get('description')
                 if (title and description):
                         # Add project to database
                         add_status = ProjectsQuery.add_project(title=title, description=description)
                         if add_status:
                                 return redirect('/projects')
-                
+                '''
                         # flash error message
                 # flash error message
 
@@ -59,6 +72,7 @@ class UserController():
         def notes(self, project_id):
                 project = ProjectsQuery.fetch_project_by_id(project_id)
                 notes = NoteQuery.fetch_all_notes_of_project_by_project_id(project_id)
+                print(notes)
                 return render_template('/application_ui/notes.html', project=project, notes=notes, current_page='notes')
         
         def create_note(self, project_id):
@@ -78,7 +92,7 @@ class UserController():
                         return redirect(f'/project/{project_id}/notes')
 
                 
-                return render_template('/application_ui/create_note.html', project=project)
+                return render_template('/application_ui/create_note.html', project=project, current_page='notes')
         
         def delete_node(self, project_id, target_id):
                 # Delete project
@@ -91,7 +105,24 @@ class UserController():
         
         def view_note(self, project_id, note_id):
                 note = NoteQuery.fetch_note_by_id(note_id=note_id)
-                return render_template('/application_ui/view_note.html', note=note)
+                return render_template('/application_ui/view_note.html', note=note, project_id=project_id, current_page='notes')
+        
+        def edit_note(self, project_id, note_id):
+                note = NoteQuery.fetch_note_by_id(note_id=note_id)
+                if request.method == "POST":
+                        new_title = request.form['new_title']
+                        new_content = request.form['new_content']
+                        status_edit = NoteQuery.update_note(note=note,
+                                                            new_title=new_title,
+                                                            new_content=new_content
+                                                            )
+                        if status_edit:
+                                # flash successfull message
+                                return redirect(f'/project/{project_id}/notes/{note_id}/view')
+                        
+                        # flash error message
+                return render_template('/application_ui/edit_note.html', note=note, project_id=project_id, current_page='notes')
+
 
 
 

@@ -1,4 +1,4 @@
-{% extends "/application_ui/base.html" %}
+{% extends "/application_ui/layout/base.html" %}
 
 {% block title %}Dashboard | UENote{% endblock %}
 
@@ -13,14 +13,14 @@
     <div class="col-md-6">
         <div class="card p-4 text-center">
             <h6 class="text-secondary">Total Projects</h6>
-            <h2 class="fw-bold">{{ project_count }}</h2>
+            <h2 class="fw-bold">{{ info_dic['projects_count'] }}</h2>
         </div>
     </div>
 
     <div class="col-md-6">
         <div class="card p-4 text-center">
             <h6 class="text-secondary">Total Notes</h6>
-            <h2 class="fw-bold">{{ note_count }}</h2>
+            <h2 class="fw-bold">{{ info_dic['notes_count'] }}</h2>
         </div>
     </div>
 </div>
@@ -42,7 +42,7 @@
 
             <div class="row">
 
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
                     <h6 class="fw-bold">Backend</h6>
                     <p class="small text-secondary mb-1">
                         Python + Flask
@@ -52,17 +52,30 @@
                     </p>
                 </div>
 
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
                     <h6 class="fw-bold">Frontend</h6>
                     <p class="small text-secondary mb-1">
                         Bootstrap 5
+                    </p>
+                    <p class="small text-secondary mb-1">
+                        particles js
                     </p>
                     <p class="small text-secondary">
                         Jinja2 Templates
                     </p>
                 </div>
 
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
+                    <h6 class="fw-bold">Libraries</h6>
+                    <p class="small text-secondary">
+                        Marked.js
+                    </p>
+                    <p class="small text-secondary">
+                        Highlight.js
+                    </p>
+                </div>
+
+                <div class="col-md-3 mb-3">
                     <h6 class="fw-bold">Database</h6>
                     <p class="small text-secondary">
                         SQLite (Development Phase)
@@ -77,7 +90,7 @@
 
                 <div>
                     <span class="badge bg-info text-dark me-2">
-                        Version 1.0
+                        Version 2.1
                     </span>
                     <span class="badge bg-secondary">
                         Initial Release
@@ -87,19 +100,19 @@
                 <div class="mt-2 mt-md-0">
                     <a href="https://github.com/alyas-land/"
                        target="_blank"
-                       class="btn btn-sm btn-dark ">
+                       class="btn btn-sm btn-dark gradient-btn">
                         GitHub
                     </a>
 
                     <a href="https://www.linkedin.com/in/thealyas/"
                        target="_blank"
-                       class="btn btn-sm btn-primary">
+                       class="btn btn-sm btn-primary gradient-btn">
                         LinkedIn
                     </a>
 
                     <a href="https://www.kick.com/thealyas/"
                        target="_blank"
-                       class="btn btn-sm btn-success ps-3 pe-3">
+                       class="btn btn-sm btn-success ps-3 pe-3 gradient-btn">
                           kick  
                     </a>
                 </div>

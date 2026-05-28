@@ -1,6 +1,6 @@
-{% extends "/application_ui/base.html" %}
+{% extends "/application_ui/layout/base.html" %}
 
-{% block title %}Dashboard | UENote{% endblock %}
+{% block title %}Notes | UENote{% endblock %}
 
 {% block content %}
 
@@ -36,6 +36,7 @@
         </thead>
 
         <tbody>
+            {% if notes != none %}
             {% for note in notes %}
             <tr>
                 <td>{{ note.title }}</td>
@@ -49,11 +50,10 @@
                         View
                     </a>
 
-                    <button class="btn btn-sm btn-outline-warning"
-                            data-bs-toggle="modal"
-                            data-bs-target="#editNoteModal{{ note.id }}">
+                    <a  href="/project/{{project.id}}/notes/{{note.id}}/edit"
+                        class="btn btn-sm btn-outline-warning">
                         Edit
-                    </button>
+                    </a>
 
                     <button class="btn btn-sm btn-outline-danger"
                         data-bs-toggle="modal"
@@ -111,17 +111,18 @@
                     </div>
                 </div>
             </div>
-
+            {% endfor %}
             {% else %}
             <tr>
                 <td colspan="3" class="text-center text-secondary">
                     No notes yet. Create your first one 🚀
                 </td>
             </tr>
+            {% endif %}
 
 
             
-            {% endfor %}
+            
         </tbody>
 
     </table>
