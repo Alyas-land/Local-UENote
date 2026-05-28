@@ -9,7 +9,9 @@ A lightweight local note-taking application designed for:
 - Quest Designers
 
 Local UENote helps developers organize technical notes, code snippets, gameplay ideas, and quest documentation in a simple local workspace.
+
 ![Local-UENote Preview](static//readme_files/dashboard.gif)
+
 ---
 
 # ✨ Features
